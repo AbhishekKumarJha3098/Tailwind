@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotstar</title>
+<style>
+
+    #navbar {
+display : flex;
+background-color: black;
+height : 80px;
+    }
+
+    #menu {
+height : 20px;
+
+    }
+
+    #navbar > div {
+
+        margin : 30px 30px;
+        color : wheat;
+        font-weight: 500;
+
+    }
+
+   #navbar > #yellow {
+       color : gold;
+       font-style: oblique;
+       font-weight: 500;
+       font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    #img1 {
+margin : -10px;
+    }
+
+    #slide > img {
+
+        height : 500px;
+        margin-left : 50px;
+        width: 90%;
+       
+
+    }
+
+
+
+
+</style>
+
+
+    
+</head>
+<body>
+
+    <div id = "navbar">
+
+        <div>
+<button onclick = "create()" id = "button">
+<img id = "menu" src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAANlBMVEX///8AAAD6+vrKysr29vZCQkIICAinp6coKCjm5ubb29vp6ekeHh4aGhrf39/Z2dnw8PA8PDyDlLpkAAAAo0lEQVR4nO3cyQ3CQBBEUdsM67A5/2TJAdGaMn4vg3/qQ0k9TQAAAAAAAAAAAAAAAAAAAMmWHDWB/X5J8XiWFF7nHDeFChUOp1DhXgv7fEox11x8AAAAAABgK5ZDjlZSmLQ9vf6+0H6oUOF4ChXutbCdc7xLCgEAAAAAgK3o6zHF6muEQoXjKVSocDyFX2o5agIBAAAAAAAAAAAAAAAAAAB+5APHNSOPH6l3zQAAAABJRU5ErkJggg=="/>
+</button>
+
+
+
+
+
+        </div>
+        <div>
+            <img id = "img1" src = "https://secure-media.hotstarext.com/web-assets/prod/images/brand-logos/disney-hotstar-logo-dark.svg"/>
+        </div>
+
+        <div>TV</div>
+        <div>Movies</div>
+        <div>Sports</div>
+        <div>Disney+</div>
+        <div id = "yellow">KiDS</div>
+
+
+
+
+
+
+    </div>
+
+    <div id = "slide"></div>
+
+
+
+
+    <input oninput = "main()" id = "movie" type = "text" placeholder = "Search for movies"/>
+
+<div id = "movies"></div>
+
+
+    <script>
+
+let images = [
+    "https://shifu.hotstarext.com/SOURCE/LIVE/cd-2021-11-04/D11GenDesktop-63d36c69-bee5-4d3e-b1f6-42ee316005dc.jpeg",
+    "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1x/sources/r1/cms/prod/5862/1075862-h-ef5ca4d5803c",
+    "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1x/sources/r1/cms/prod/4295/1074295-h-5c73df97f0bb",
+    "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1x/sources/r1/cms/prod/3668/593668-h",
+    "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1x/sources/r1/cms/prod/1331/641331-h"
+];
+let cont = document.getElementById("slide");
+let interval;
+
+function slide() {
+
+   let count = 0;
+   let img = document.createElement("img");
+   img.src = images[0];
+cont.append(img);
+count = count + 1;
+
+
+let interval = setInterval(function(){
+cont.innerHTML =  null;
+if (count == images.length) {
+count = 0;
+}
+
+let img = document.createElement("img");
+img.src = images[count];
+cont.append(img);
+
+count = count + 1;
+},1000)
+
+}
+
+slide();
+
+
+
+
+function create () {
+    
+    let line = "<select><option>Channels</option><option>Languages</option><option>Genres</option></select>";
+    let arr = document.getElementById("button");
+    arr.innerHTML = null;
+let div = document.createElement("div");
+div.innerHTML = line;
+
+arr.append(div);
+
+}
+
+
+
+
+let moviesdiv = document.getElementById("movie");
+
+
+async function Search(el) {
+
+    let res = await fetch ("http://www.omdbapi.com/?i=${el}&apikey=7650848a");
+    let data = await res.json();
+
+    console.log(data);
+
+}
+    function append(el) {
+
+        if (el == undefined) {
+return false;
+
+        }
+
+        el.array.forEach(function (ele) {
+
+            let p = document.createElement("p");
+            p.innerText = ele.Title;
+
+            moviesdiv.append(p);
+            
+        });
+    }
+  
+
+
+async function main() {
+
+let name = document.getElementById("movie").value;
+
+let res = await search(name);
+
+
+let mov = res.Search;
+
+
+append (mov);
+console.log(res);
+
+
+
+
+}
+
+
+</script>
+
+
+    
+    
+</body>
+</html>
